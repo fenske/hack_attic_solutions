@@ -39,4 +39,10 @@ public class JwtController {
         SECRET_KEY.set(secret);
         return "Updated secret";
     }
+
+    @PostMapping("/reset")
+    public String reset() {
+        container.clear();
+        return "State reset";
+    }
 }
