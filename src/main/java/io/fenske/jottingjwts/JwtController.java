@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.xml.bind.DatatypeConverter;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -20,9 +21,9 @@ public class JwtController {
 
     @PostMapping("/")
     public Object index(@RequestBody String jwt) {
-        System.out.println("Received jwt: " + jwt);
+        final String base64SecretKey = Base64.getEncoder().encodeToString(SECRET_KEY.get().getBytes());
         Claims claims = Jwts.parser()
-                            .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY.get()))
+                            .setSigningKey(DatatypeConverter.parseBase64Binary(base64SecretKey))
                             .parseClaimsJws(jwt)
                             .getBody();
         final Object append = claims.get("append");
