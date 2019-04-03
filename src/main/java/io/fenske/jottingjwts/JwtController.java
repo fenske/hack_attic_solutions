@@ -23,7 +23,7 @@ public class JwtController {
     public Object index(@RequestBody String jwt) {
         final String base64SecretKey = Base64.getEncoder().encodeToString(SECRET_KEY.get().getBytes());
         Claims claims = Jwts.parser()
-                            .setAllowedClockSkewSeconds(1000)
+                            .setAllowedClockSkewSeconds(10000)
                             .setSigningKey(DatatypeConverter.parseBase64Binary(base64SecretKey))
                             .parseClaimsJws(jwt)
                             .getBody();
