@@ -20,6 +20,7 @@ public class JwtController {
 
     @PostMapping("/")
     public Object index(@RequestBody String jwt) {
+        System.out.println("Received jwt: " + jwt);
         Claims claims = Jwts.parser()
                             .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY.get()))
                             .parseClaimsJws(jwt)
