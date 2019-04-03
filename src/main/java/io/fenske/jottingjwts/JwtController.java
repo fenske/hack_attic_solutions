@@ -35,8 +35,8 @@ public class JwtController {
     }
 
     @PostMapping("/configure")
-    public String configure(@RequestBody String secret) {
-        SECRET_KEY.set(secret);
+    public String configure(@RequestBody Map<String, String> secret) {
+        SECRET_KEY.set(secret.get("jwt_secret"));
         return "Updated secret";
     }
 
