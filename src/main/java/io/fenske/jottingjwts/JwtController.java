@@ -22,20 +22,24 @@ public class JwtController {
     @PostMapping("/")
     public Object index(@RequestBody String jwt) {
         System.out.println("Token: " + jwt);
+        jwt = jwt.substring(0, jwt.lastIndexOf(".") + 1);
         final String base64SecretKey = Base64.getEncoder().encodeToString(SECRET_KEY.get().getBytes());
-        Claims claims = Jwts.parser()
-                            .setAllowedClockSkewSeconds(10000)
-                            .setSigningKey(DatatypeConverter.parseBase64Binary(base64SecretKey))
-                            .parseClaimsJws(jwt)
-                            .getBody();
-        final Object append = claims.get("append");
-        if (append == null) {
-            final Map<String, String> response = new HashMap<>();
-            response.put("solution", String.join("", container));
-            return response;
+        try {
+            Claims claims = Jwts.parser()
+                                .setSigningKey(DatatypeConverter.parseBase64Binary(base64SecretKey))
+                                .parseClaimsJws(jwt)
+                                .getBody();
+            final Object append = claims.get("append");
+            if (append == null) {
+                final Map<String, String> response = new HashMap<>();
+                response.put("solution", String.join("", container));
+                return response;
+            }
+            container.add(append.toString());
+            return "Appended " + append;
+        } catch(Exception e) {
+            return "Exception happened: " + e.getMessage();
         }
-        container.add(append.toString());
-        return "Appended " + append;
     }
 
     @PostMapping("/configure")
