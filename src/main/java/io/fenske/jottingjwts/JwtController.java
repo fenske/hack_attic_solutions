@@ -22,7 +22,6 @@ public class JwtController {
     @PostMapping("/")
     public Object index(@RequestBody String jwt) {
         System.out.println("Token: " + jwt);
-        jwt = jwt.substring(0, jwt.lastIndexOf(".") + 1);
         final String base64SecretKey = Base64.getEncoder().encodeToString(SECRET_KEY.get().getBytes());
         try {
             Claims claims = Jwts.parser()
