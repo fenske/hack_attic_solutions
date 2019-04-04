@@ -36,9 +36,13 @@ public class JwtController {
                 return response;
             }
             container.add(append.toString());
-            return "Appended " + append;
+            final Map<String, String> response = new HashMap<>();
+            response.put("current_value", String.join("", container));
+            return response;
         } catch(Exception e) {
-            return "Exception happened: " + e.getMessage();
+            final Map<String, String> response = new HashMap<>();
+            response.put("rejected", e.getMessage());
+            return response;
         }
     }
 
